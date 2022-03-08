@@ -1,0 +1,160 @@
+object frExportacao: TfrExportacao
+  Left = 0
+  Top = 0
+  BorderStyle = bsNone
+  Caption = 'frExportacao'
+  ClientHeight = 463
+  ClientWidth = 724
+  Color = cl3DDkShadow
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  KeyPreview = True
+  OldCreateOrder = False
+  Position = poScreenCenter
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  OnKeyDown = FormKeyDown
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Panel1: TPanel
+    Left = 0
+    Top = 0
+    Width = 724
+    Height = 463
+    Align = alClient
+    BevelKind = bkFlat
+    TabOrder = 0
+    ExplicitLeft = -8
+    ExplicitTop = -24
+    object Panel3: TPanel
+      Left = 511
+      Top = 39
+      Width = 106
+      Height = 24
+      BevelKind = bkFlat
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+      ParentFont = False
+      TabOrder = 1
+      object SpeedButton1: TSpeedButton
+        Left = -5
+        Top = -3
+        Width = 112
+        Height = 24
+        Caption = 'Procurar'
+        Flat = True
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clLime
+        Font.Height = -13
+        Font.Name = 'Courier New'
+        Font.Style = [fsBold]
+        ParentFont = False
+        OnClick = SpeedButton1Click
+      end
+    end
+    object pnCaminho: TPanel
+      Left = 66
+      Top = 40
+      Width = 439
+      Height = 22
+      BevelInner = bvLowered
+      Caption = 'Insira um arquivo de remessa (.txt)'
+      Color = clBackground
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clRed
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Style = []
+      ParentBackground = False
+      ParentFont = False
+      TabOrder = 2
+    end
+    object Memo1: TMemo
+      Left = 66
+      Top = 112
+      Width = 439
+      Height = 305
+      Color = clNone
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clRed
+      Font.Height = -13
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      Lines.Strings = (
+        'Memo1')
+      ParentFont = False
+      ParentShowHint = False
+      ScrollBars = ssVertical
+      ShowHint = True
+      TabOrder = 0
+    end
+    object Panel4: TPanel
+      Left = 511
+      Top = 112
+      Width = 106
+      Height = 25
+      BevelKind = bkFlat
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+      ParentFont = False
+      TabOrder = 3
+      object SpeedButton3: TSpeedButton
+        Left = -2
+        Top = -3
+        Width = 105
+        Height = 24
+        Caption = 'Importar'
+        Flat = True
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clLime
+        Font.Height = -13
+        Font.Name = 'Courier New'
+        Font.Style = [fsBold]
+        ParentFont = False
+        OnClick = SpeedButton3Click
+      end
+    end
+    object Panel5: TPanel
+      Left = 511
+      Top = 142
+      Width = 106
+      Height = 25
+      BevelKind = bkFlat
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Courier New'
+      Font.Style = [fsBold]
+      ParentFont = False
+      TabOrder = 4
+      object SpeedButton4: TSpeedButton
+        Left = -2
+        Top = -3
+        Width = 105
+        Height = 24
+        Caption = 'Limpar'
+        Flat = True
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clLime
+        Font.Height = -13
+        Font.Name = 'Courier New'
+        Font.Style = [fsBold]
+        ParentFont = False
+        OnClick = SpeedButton4Click
+      end
+    end
+  end
+  object OpenDialog1: TOpenDialog
+    Left = 632
+    Top = 40
+  end
+end

@@ -1,0 +1,14 @@
+program GematriaProjeto;
+
+uses
+  Vcl.Forms,
+  uPrincipal in 'uPrincipal.pas' {frGematriaPrincipal};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TfrGematriaPrincipal, frGematriaPrincipal);
+  Application.Run;
+end.
