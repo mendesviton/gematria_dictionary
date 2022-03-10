@@ -22,6 +22,7 @@ type
      function  ValorFULLOrd(pword:String):integer;
      function  ValorFULLRev(pword:String):integer;
      procedure pCriaPopulaStringList;
+     class function inverteMesDia(prdata:TDate):string;
     protected
 
 
@@ -34,6 +35,19 @@ implementation
 
 
 
+
+function TUtil.inverteMesDia(prdata:TDate): string;
+var
+  wMes:string;
+  wDia:String;
+  wAno:String;
+begin
+ wDia := Copy(prdata,0,2);
+ wMes := Copy(prdata,4,2);
+ wAno := Copy(prdata,7,4);
+
+ result:=( wMes+'/'+wDia+'/'+wAno )
+ end;
 procedure TUtil.pCriaPopulaStringList;
 begin
   StringORDValue:= TStringList.Create;

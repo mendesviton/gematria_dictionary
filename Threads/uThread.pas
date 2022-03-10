@@ -153,7 +153,7 @@ begin
   if not Terminated then
   try
      if (IOResult <> 0) then
-        showmessage('Erro na abertura do arquivo !!!')
+        showmessage('File opening error !!!')
         else
          while (not eof(arq)) do
            begin
@@ -224,7 +224,7 @@ begin
             prword:=EmptyStr;
           end;
     finally
-     MessageDlg('Palavras importadas com sucesso! ',mtConfirmation,[mbOK],1 );
+     MessageDlg('words successfully imported! ',mtConfirmation,[mbOK],1 );
      FContador:=0;
     end;
 end;

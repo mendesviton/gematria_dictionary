@@ -1332,9 +1332,9 @@ object frGematriaPrincipal: TfrGematriaPrincipal
       end>
   end
   object DBGrid2: TDBGrid
-    Left = 336
+    Left = 345
     Top = 42
-    Width = 281
+    Width = 272
     Height = 475
     DataSource = dsHistoric
     TabOrder = 2
@@ -1343,6 +1343,7 @@ object frGematriaPrincipal: TfrGematriaPrincipal
     TitleFont.Height = -11
     TitleFont.Name = 'Tahoma'
     TitleFont.Style = []
+    OnMouseDown = DBGrid2MouseDown
     Columns = <
       item
         Alignment = taCenter
@@ -1360,7 +1361,7 @@ object frGematriaPrincipal: TfrGematriaPrincipal
         Title.Font.Height = -16
         Title.Font.Name = 'Courier New'
         Title.Font.Style = [fsBold]
-        Width = 133
+        Width = 130
         Visible = True
       end
       item
@@ -1384,9 +1385,9 @@ object frGematriaPrincipal: TfrGematriaPrincipal
       end>
   end
   object DBGrid3: TDBGrid
-    Left = 336
+    Left = 345
     Top = 570
-    Width = 281
+    Width = 272
     Height = 460
     DataSource = dsSelecionadas
     TabOrder = 3
@@ -1395,6 +1396,45 @@ object frGematriaPrincipal: TfrGematriaPrincipal
     TitleFont.Height = -11
     TitleFont.Name = 'Tahoma'
     TitleFont.Style = []
+    Columns = <
+      item
+        Alignment = taCenter
+        Expanded = False
+        FieldName = 'bdword'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Courier New'
+        Font.Style = []
+        Title.Alignment = taCenter
+        Title.Caption = 'WORD'
+        Title.Font.Charset = DEFAULT_CHARSET
+        Title.Font.Color = clWindowText
+        Title.Font.Height = -15
+        Title.Font.Name = 'Courier New'
+        Title.Font.Style = [fsBold]
+        Width = 135
+        Visible = True
+      end
+      item
+        Alignment = taCenter
+        Expanded = False
+        FieldName = 'bddata'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Courier New'
+        Font.Style = []
+        Title.Alignment = taCenter
+        Title.Caption = 'DATE'
+        Title.Font.Charset = DEFAULT_CHARSET
+        Title.Font.Color = clWindowText
+        Title.Font.Height = -15
+        Title.Font.Name = 'Courier New'
+        Title.Font.Style = [fsBold]
+        Width = 130
+        Visible = True
+      end>
   end
   object ClientDataSet1: TClientDataSet
     Aggregates = <>
@@ -1444,7 +1484,7 @@ object frGematriaPrincipal: TfrGematriaPrincipal
     object dstHistoricBDWORD: TStringField
       DisplayWidth = 133
       FieldName = 'BDWORD'
-      Size = 70
+      Size = 10
     end
     object dstHistoricBDDATA: TDateField
       FieldName = 'BDDATA'
@@ -1467,6 +1507,13 @@ object frGematriaPrincipal: TfrGematriaPrincipal
     ProviderName = 'providerSelecionar'
     Left = 376
     Top = 744
+    object dtsSelecionadasbdword: TStringField
+      FieldName = 'bdword'
+      Size = 70
+    end
+    object dtsSelecionadasbddata: TDateField
+      FieldName = 'bddata'
+    end
   end
   object providerSelecionar: TDataSetProvider
     DataSet = dtsSelecionadas

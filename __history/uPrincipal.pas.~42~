@@ -1,0 +1,370 @@
+unit uPrincipal;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Imaging.pngimage, Vcl.ExtCtrls,uUtil,
+  Vcl.Buttons, Vcl.StdCtrls,uExportacao, Data.DB, Vcl.Grids, Vcl.DBGrids,uConexaoBanco,uControleSQL,
+  Datasnap.Provider, Datasnap.DBClient,uThread;
+
+type
+  TfrGematriaPrincipal = class(TForm)
+    edTexto: TEdit;
+    Image1: TImage;
+    SpeedButton2: TSpeedButton;
+    Panel1: TPanel;
+    Panel2: TPanel;
+    Panel3: TPanel;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
+    Label1: TLabel;
+    Label5: TLabel;
+    Label6: TLabel;
+    Label7: TLabel;
+    Label8: TLabel;
+    Panel5: TPanel;
+    Panel6: TPanel;
+    Panel7: TPanel;
+    Panel8: TPanel;
+    DBGrid1: TDBGrid;
+    ClientDataSet1: TClientDataSet;
+    DataSource1: TDataSource;
+    DataSetProvider1: TDataSetProvider;
+    ckREV: TCheckBox;
+    ckFULLORD: TCheckBox;
+    ckFULLREV: TCheckBox;
+    ClientDataSet1BDWORD: TStringField;
+    ClientDataSet1ORDVALUE: TIntegerField;
+    ClientDataSet1REVALUE: TIntegerField;
+    ClientDataSet1FULLORDVALUE: TIntegerField;
+    ClientDataSet1FULLREVALUE: TIntegerField;
+    SpeedButton1: TSpeedButton;
+    Panel4: TPanel;
+    SpeedButton3: TSpeedButton;
+    Label10: TLabel;
+    Label9: TLabel;
+    DBGrid2: TDBGrid;
+    DBGrid3: TDBGrid;
+    dsHistoric: TDataSource;
+    dstHistoric: TClientDataSet;
+    providerHistoric: TDataSetProvider;
+    dsSelecionadas: TDataSource;
+    dtsSelecionadas: TClientDataSet;
+    providerSelecionar: TDataSetProvider;
+    dstHistoricBDWORD: TStringField;
+    dstHistoricBDDATA: TDateField;
+    dtsSelecionadasbdword: TStringField;
+    dtsSelecionadasbddata: TDateField;
+    procedure SpeedButton2Click(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure edTextoChange(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure ckOrdClick(Sender: TObject);
+    procedure ckREVClick(Sender: TObject);
+    procedure ckFULLORDClick(Sender: TObject);
+    procedure ckFULLREVClick(Sender: TObject);
+    procedure SpeedButton3Click(Sender: TObject);
+    procedure DBGrid1CellClick(Column: TColumn);
+
+  private
+     thrCalcula:TThreadCalcula;
+     Util:TUtil;
+     TSQL:TExecSQL;
+     FConnection:TBDConnection;
+     FULLORD:boolean;
+     FULLREV:boolean;
+     ORD    :boolean;
+     REV    :boolean;
+     FORDVALUE:String;
+     FREVVALUE:String;
+     FFULLORDVALUE:String;
+     FFULLREVVALUE:String;
+     function getWhereDados(ckREV,ckFULLORD,ckFULLREV:TCheckBox):string;
+     procedure InsereAtualizaHistorico;
+     procedure DimensionarGrid(dbg: TDBGrid);
+
+
+  public
+
+
+  end;
+
+var
+  frGematriaPrincipal: TfrGematriaPrincipal;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrGematriaPrincipal.ckFULLORDClick(Sender: TObject);
+begin
+  FULLORD:=ckFULLORD.Checked
+end;
+
+procedure TfrGematriaPrincipal.ckFULLREVClick(Sender: TObject);
+begin
+  FULLREV:=ckFULLREV.Checked;
+end;
+
+procedure TfrGematriaPrincipal.ckOrdClick(Sender: TObject);
+begin
+//  ORD:=ckOrd.Checked;
+end;
+
+procedure TfrGematriaPrincipal.ckREVClick(Sender: TObject);
+begin
+  REV:=ckREV.Checked;
+end;
+
+procedure TfrGematriaPrincipal.DBGrid1CellClick(Column: TColumn);
+var
+wSQL:String;
+begin
+
+  wSQL:=EmptyStr;
+
+  if MessageDlg('Add word in the table of selected words?',mtWarning,mbYesNo,1) = mrYes then
+     begin
+        wSQL:='insert into tbselecionadas (bdword,bddata) values('+QuotedStr(DBGrid1.Columns.Items[0].Field.Text)+','+QuotedStr(TUtil.inverteMesDia(date))+')';
+        dtsSelecionadas.Close;
+        dtsSelecionadas.CommandText:=wSQL;
+        dtsSelecionadas.Execute;
+        wSQL:=EmptyStr;
+        wSQL:='select * from tbselecionadas';
+        dtsSelecionadas.Close;
+        dtsSelecionadas.CommandText:=wSQL;
+        dtsSelecionadas.open;
+
+     end;
+end;
+
+procedure TfrGematriaPrincipal.DimensionarGrid(dbg: TDBGrid);
+type
+  TArray = Array of Integer;
+  procedure AjustarColumns(Swidth, TSize: Integer; Asize: TArray);
+  var
+    idx: Integer;
+  begin
+    if TSize = 0 then
+    begin
+      TSize := dbg.Columns.count;
+      for idx := 0 to dbg.Columns.count - 1 do
+        dbg.Columns[idx].Width := (dbg.Width - dbg.Canvas.TextWidth('AAAAAA')
+          ) div TSize
+    end
+    else
+      for idx := 0 to dbg.Columns.count - 1 do
+        dbg.Columns[idx].Width := dbg.Columns[idx].Width +
+          (Swidth * Asize[idx] div TSize);
+  end;
+var
+  idx, Twidth, TSize, Swidth: Integer;
+  AWidth: TArray;
+  Asize: TArray;
+  NomeColuna: String;
+begin
+  SetLength(AWidth, dbg.Columns.count);
+  SetLength(Asize, dbg.Columns.count);
+  Twidth := 0;
+  TSize := 0;
+  for idx := 0 to dbg.Columns.count - 1 do
+  begin
+    NomeColuna := dbg.Columns[idx].Title.Caption;
+    dbg.Columns[idx].Width := dbg.Canvas.TextWidth
+      (dbg.Columns[idx].Title.Caption + 'A');
+    AWidth[idx] := dbg.Columns[idx].Width;
+    Twidth := Twidth + AWidth[idx];
+
+    if Assigned(dbg.Columns[idx].Field) then
+      Asize[idx] := dbg.Columns[idx].Field.Size
+    else
+      Asize[idx] := 1;
+
+    TSize := TSize + Asize[idx];
+  end;
+  if TDBGridOption.dgColLines in dbg.Options then
+    Twidth := Twidth + dbg.Columns.count;
+
+  // adiciona a largura da coluna indicada do cursor
+  if TDBGridOption.dgIndicator in dbg.Options then
+    Twidth := Twidth + IndicatorWidth;
+
+  Swidth := dbg.ClientWidth - Twidth;
+  AjustarColumns(Swidth, TSize, Asize);
+end;
+
+procedure TfrGematriaPrincipal.edTextoChange(Sender: TObject);
+var
+//thrsqlgrid:TThreadCarregaPalavras;
+wSQL:String;
+begin
+  if (trim(edTexto.Text)=EmptyStr) then
+     begin
+        wSQL:= 'select * from wordstb';
+        ClientDataSet1.Close;
+        ClientDataSet1.commandtext:=wSQL;
+        ClientDataSet1.open;
+
+     end;
+//  wSQL:=EmptyStr;
+//  if not(trim(edTexto.Text) = EmptyStr) then
+//     begin
+//          thrsqlgrid:=TThreadCarregaPalavras.create(true);
+//          thrsqlgrid.ClientDataSet1:=ClientDataSet1;
+//          thrsqlgrid.edit:=edTexto;
+//          thrsqlgrid.Resume;
+//        ClientDataSet1.Close;
+//        wSQL:=' select * from wordstb wd where ordvalue = '+inttostr(Util.ValorOrd(trim(edTexto.Text)));
+//        ClientDataSet1.commandtext:='select * from wordstb wd where ordvalue = '+inttostr(Util.ValorOrd(trim(edTexto.Text)));
+//        ClientDataSet1.open;
+//     end
+//     else
+//      begin
+//        ClientDataSet1.Close;
+//        ClientDataSet1.commandtext:='select * from wordstb ';
+//        ClientDataSet1.open;
+//        Label5.Caption:= '0';
+//        Label6.Caption:= '0';
+//        Label7.Caption:= '0';
+//        Label8.Caption:= '0';
+//      end;
+
+end;
+
+procedure TfrGematriaPrincipal.FormCreate(Sender: TObject);
+begin
+//  DimensionarGrid(DBGrid1);
+//  DimensionarGrid(DBGrid2);
+//  DimensionarGrid(DBGrid3);
+
+//  inverteMesDia(date);
+  DBGrid1.Columns[0].Width:=200;
+  DBGrid2.Columns[0].Width:=100;
+  DBGrid3.Columns[0].Width:=100;
+  Util:=TUtil.create;
+  Util.pCriaPopulaStringList;
+  FConnection  := TBDConnection.Create;
+  TSQL:=TExecSQL.Create;
+
+  providerSelecionar.DataSet:=TSQL.CommandText;
+  providerHistoric.DataSet:=TSQL.CommandText;
+  DataSetProvider1.DataSet:=TSQL.CommandText;
+
+  ClientDataSet1.Close;
+  ClientDataSet1.commandtext:='select * from wordstb wd where upper(wd.bdword) like UPPER(''AB%'')';
+  ClientDataSet1.open;
+
+  dstHistoric.Close;
+  dstHistoric.commandtext:='select * from tbhistorico';
+  dstHistoric.open;
+
+  dtsSelecionadas.Close;
+  dtsSelecionadas.commandtext:='select * from tbselecionadas';
+  dtsSelecionadas.open;
+
+// ckOrd.Checked:= true;
+  FULLORD      :=true;
+  FULLREV      :=false;
+  ORD          :=false;
+  REV          :=false;
+
+end;
+
+procedure TfrGematriaPrincipal.FormKeyUp(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if Key = VK_ESCAPE then
+     begin
+//      if Sender(frExportacao) then
+//          showmessage('fodase')
+//      Application.Terminate;
+     end;
+end;
+
+procedure TfrGematriaPrincipal.FormShow(Sender: TObject);
+var
+  thrCalcula:TThreadCalcula;
+begin
+end;
+
+function TfrGematriaPrincipal.getWhereDados(ckREV,ckFULLORD,ckFULLREV:TCheckBox): string;
+var
+  wSQL:String;
+begin
+
+  wSQL:=' where ORDVALUE = '+inttostr(Util.ValorOrd(trim(edTexto.Text)));
+
+  if ckREV.Checked then
+     wSQL:= wSQL + ' and REVALUE ='+inttostr(Util.ValorRev(trim(edTexto.Text)));
+  if ckFULLORD.Checked then
+     wSQL:= wSQL + ' and FULLORDVALUE ='+inttostr(util.ValorFULLOrd(trim(edTexto.Text)));
+  if ckFULLREV.Checked then
+     wSQL:= wSQL + ' and FULLREVALUE ='+inttostr(util.ValorFULLRev(trim(edTexto.Text)));
+
+  result := wSQL;
+
+
+
+end;
+
+procedure TfrGematriaPrincipal.InsereAtualizaHistorico;
+var
+wSQL:String;
+  begin
+  wSQL:= EmptyStr;
+  wSQL:= 'insert into TBHISTORICO (bdword,bddata) values ('+QuotedStr(trim(edTexto.Text))+','+QuotedStr(TUtil.inverteMesDia(date))+')';
+  TSQL.SQL(wSQL);
+  wSQL:=EmptyStr;
+  dstHistoric.Close;
+  wSQL:='select * from TBHISTORICO';
+  dstHistoric.commandtext:=  wSQL;
+  dstHistoric.Open;
+
+
+end;
+
+
+procedure TfrGematriaPrincipal.SpeedButton2Click(Sender: TObject);
+begin
+   TfrExportacao.Create(self).Show;
+end;
+
+procedure TfrGematriaPrincipal.SpeedButton3Click(Sender: TObject);
+var
+wSQL:string;
+begin
+    if not(trim(edTexto.Text) = EmptyStr) then
+        begin
+          thrCalcula:=TThreadCalcula.create(true);
+          thrCalcula.ORDlabel:=Label5;
+          thrCalcula.REVlabel:=Label6;
+          thrCalcula.FULLREVlabel:=label7;
+          thrCalcula.FULLORDlabel:=Label8;
+          thrCalcula.inputext:=trim(edTexto.Text);
+
+          thrCalcula.FORDVALUE:=FORDVALUE;
+          thrCalcula.FREVVALUE:=FREVVALUE;
+          thrCalcula.FFULLORDVALUE:=FFULLORDVALUE;
+          thrCalcula.FFULLREVVALUE:=FFULLREVVALUE;
+
+          thrCalcula.Resume;
+
+          ClientDataSet1.Close;
+          wSQL:='select * from wordstb'+getWhereDados(ckREV,ckFULLORD,ckFULLREV);
+          ClientDataSet1.commandtext:=  wSQL;
+          ClientDataSet1.open;
+          InsereAtualizaHistorico;
+        end
+        else
+        begin
+          ClientDataSet1.Close;
+          wSQL:= 'select * from wordstb';
+          ClientDataSet1.commandtext:=  wSQL;
+          ClientDataSet1.open;
+        end;
+end;
+
+end.

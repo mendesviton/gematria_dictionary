@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Imaging.pngimage, Vcl.ExtCtrls,uUtil,
   Vcl.Buttons, Vcl.StdCtrls,uExportacao, Data.DB, Vcl.Grids, Vcl.DBGrids,uConexaoBanco,uControleSQL,
-  Datasnap.Provider, Datasnap.DBClient,uThread;
+  Datasnap.Provider, Datasnap.DBClient,uThread,System.IniFiles;
 
 type
   TfrGematriaPrincipal = class(TForm)
@@ -55,6 +55,8 @@ type
     providerSelecionar: TDataSetProvider;
     dstHistoricBDWORD: TStringField;
     dstHistoricBDDATA: TDateField;
+    dtsSelecionadasbdword: TStringField;
+    dtsSelecionadasbddata: TDateField;
     procedure SpeedButton2Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure edTextoChange(Sender: TObject);
@@ -66,6 +68,8 @@ type
     procedure ckFULLREVClick(Sender: TObject);
     procedure SpeedButton3Click(Sender: TObject);
     procedure DBGrid1CellClick(Column: TColumn);
+    procedure DBGrid2MouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
 
   private
      thrCalcula:TThreadCalcula;
@@ -82,6 +86,8 @@ type
      FFULLREVVALUE:String;
      function getWhereDados(ckREV,ckFULLORD,ckFULLREV:TCheckBox):string;
      procedure InsereAtualizaHistorico;
+     procedure DimensionarGrid(dbg: TDBGrid);
+
 
   public
 
@@ -124,7 +130,7 @@ begin
 
   if MessageDlg('Add word in the table of selected words?',mtWarning,mbYesNo,1) = mrYes then
      begin
-        wSQL:='insert into tbselecionadas (bdword,bddata) values('+QuotedStr(DBGrid1.Columns.Items[0].Field.Text)+','+QuotedStr(DateToStr(date))+')';
+        wSQL:='insert into tbselecionadas (bdword,bddata) values('+QuotedStr(DBGrid1.Columns.Items[0].Field.Text)+','+QuotedStr(TUtil.inverteMesDia(date))+')';
         dtsSelecionadas.Close;
         dtsSelecionadas.CommandText:=wSQL;
         dtsSelecionadas.Execute;
@@ -135,6 +141,67 @@ begin
         dtsSelecionadas.open;
 
      end;
+end;
+
+procedure TfrGematriaPrincipal.DBGrid2MouseDown(Sender: TObject;
+  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+begin
+  showmessage('qweqweqwe')
+end;
+
+procedure TfrGematriaPrincipal.DimensionarGrid(dbg: TDBGrid);
+type
+  TArray = Array of Integer;
+  procedure AjustarColumns(Swidth, TSize: Integer; Asize: TArray);
+  var
+    idx: Integer;
+  begin
+    if TSize = 0 then
+    begin
+      TSize := dbg.Columns.count;
+      for idx := 0 to dbg.Columns.count - 1 do
+        dbg.Columns[idx].Width := (dbg.Width - dbg.Canvas.TextWidth('AAAAAA')
+          ) div TSize
+    end
+    else
+      for idx := 0 to dbg.Columns.count - 1 do
+        dbg.Columns[idx].Width := dbg.Columns[idx].Width +
+          (Swidth * Asize[idx] div TSize);
+  end;
+var
+  idx, Twidth, TSize, Swidth: Integer;
+  AWidth: TArray;
+  Asize: TArray;
+  NomeColuna: String;
+begin
+  SetLength(AWidth, dbg.Columns.count);
+  SetLength(Asize, dbg.Columns.count);
+  Twidth := 0;
+  TSize := 0;
+  for idx := 0 to dbg.Columns.count - 1 do
+  begin
+    NomeColuna := dbg.Columns[idx].Title.Caption;
+    dbg.Columns[idx].Width := dbg.Canvas.TextWidth
+      (dbg.Columns[idx].Title.Caption + 'A');
+    AWidth[idx] := dbg.Columns[idx].Width;
+    Twidth := Twidth + AWidth[idx];
+
+    if Assigned(dbg.Columns[idx].Field) then
+      Asize[idx] := dbg.Columns[idx].Field.Size
+    else
+      Asize[idx] := 1;
+
+    TSize := TSize + Asize[idx];
+  end;
+  if TDBGridOption.dgColLines in dbg.Options then
+    Twidth := Twidth + dbg.Columns.count;
+
+  // adiciona a largura da coluna indicada do cursor
+  if TDBGridOption.dgIndicator in dbg.Options then
+    Twidth := Twidth + IndicatorWidth;
+
+  Swidth := dbg.ClientWidth - Twidth;
+  AjustarColumns(Swidth, TSize, Asize);
 end;
 
 procedure TfrGematriaPrincipal.edTextoChange(Sender: TObject);
@@ -176,8 +243,21 @@ begin
 end;
 
 procedure TfrGematriaPrincipal.FormCreate(Sender: TObject);
+var
+ArquivoINI    : String;
+Configuration : TIniFile;
 begin
+ ArquivoINI := ExtractFilePath(Application.ExeName) + 'config.ini';
+ Configuration := TIniFile.Create(ArquivoINI);
+ Configuration.WriteString('Dados','Servidor',ExtractFilePath(Application.ExeName) + 'base\GEMDB.FDB');
+//  DimensionarGrid(DBGrid1);
+//  DimensionarGrid(DBGrid2);
+//  DimensionarGrid(DBGrid3);
 
+//  inverteMesDia(date);
+  DBGrid1.Columns[0].Width:=200;
+  DBGrid2.Columns[0].Width:=125;
+  DBGrid3.Columns[0].Width:=125;
   Util:=TUtil.create;
   Util.pCriaPopulaStringList;
   FConnection  := TBDConnection.Create;
@@ -249,7 +329,7 @@ var
 wSQL:String;
   begin
   wSQL:= EmptyStr;
-  wSQL:= 'insert into TBHISTORICO (bdword,bddata) values ('+QuotedStr(trim(edTexto.Text))+','+QuotedStr(DateToStr(date))+')';
+  wSQL:= 'insert into TBHISTORICO (bdword,bddata) values ('+QuotedStr(trim(edTexto.Text))+','+QuotedStr(TUtil.inverteMesDia(date))+')';
   TSQL.SQL(wSQL);
   wSQL:=EmptyStr;
   dstHistoric.Close;
@@ -259,6 +339,7 @@ wSQL:String;
 
 
 end;
+
 
 procedure TfrGematriaPrincipal.SpeedButton2Click(Sender: TObject);
 begin

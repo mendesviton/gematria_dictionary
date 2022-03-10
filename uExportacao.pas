@@ -129,7 +129,7 @@ end;
 
 procedure TfrExportacao.pAtualizaLabel;
 begin
-  label4.Caption:='Palavras na área de transferência:'+inttostr(Memo1.Lines.Count);
+  label4.Caption:='words in transfer area:'+inttostr(Memo1.Lines.Count);
 end;
 
 procedure TfrExportacao.populaStringListFULLORD;
@@ -263,8 +263,8 @@ var
     arq: TextFile; { declarando a variável "arq" do tipo arquivo texto }
     path,linha: string;
 begin
-Label3.Caption:='Palavras importadas: 0';
-Label4.Caption:='Palavras na área de transferência: 0';
+Label3.Caption:='impordet words: 0';
+Label4.Caption:='words in transfer area: 0';
 
 Memo1.Clear;
 Memothread:=TThreadExportacao.create(true);
@@ -330,15 +330,15 @@ begin
      InsertThread.StringFULLREVValue:= StringFULLREVValue;
      InsertThread.Resume;
    end else
-   showmessage('A área de transferência está vazia')
+   showmessage('Transfer area is empty')
 
 end;
 
 procedure TfrExportacao.SpeedButton4Click(Sender: TObject);
 begin
   Memo1.Clear;
-  Label3.Caption:='Palavras importadas: 0';
-  Label4.Caption:='Palavras na área de transferência: 0'
+  Label3.Caption:='imported words: 0';
+  Label4.Caption:='words in transfer area: 0'
 end;
 
 function TfrExportacao.ValorFULLOrd(pword: String): integer;
