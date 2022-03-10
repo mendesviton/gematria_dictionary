@@ -2,17 +2,17 @@
 <BorlandProject>
 	<Transactions>
     <Transaction>2022/02/25 00:16:12.000.120,=C:\Users\vitor\OneDrive - Uniasselvi\Documentos\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
-    <Transaction>2022/02/25 02:14:00.000.879,C:\Users\vitor\OneDrive - Uniasselvi\Documentos\Embarcadero\Studio\Projects\Unit1.dfm=D:\Dev\Projeto Gematria\uPrincipal.dfm</Transaction>
-    <Transaction>2022/02/25 02:14:00.000.879,C:\Users\vitor\OneDrive - Uniasselvi\Documentos\Embarcadero\Studio\Projects\Unit1.pas=D:\Dev\Projeto Gematria\uPrincipal.pas</Transaction>
-    <Transaction>2022/02/25 02:14:13.000.611,C:\Users\vitor\OneDrive - Uniasselvi\Documentos\Embarcadero\Studio\Projects\Project1.dproj=D:\Dev\Projeto Gematria\GematriaProjeto.dproj</Transaction>
+    <Transaction>2022/02/25 02:14:00.000.879,D:\Dev\Projeto Gematria\uPrincipal.pas=C:\Users\vitor\OneDrive - Uniasselvi\Documentos\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2022/02/25 02:14:00.000.879,D:\Dev\Projeto Gematria\uPrincipal.dfm=C:\Users\vitor\OneDrive - Uniasselvi\Documentos\Embarcadero\Studio\Projects\Unit1.dfm</Transaction>
+    <Transaction>2022/02/25 02:14:13.000.611,D:\Dev\Projeto Gematria\GematriaProjeto.dproj=C:\Users\vitor\OneDrive - Uniasselvi\Documentos\Embarcadero\Studio\Projects\Project1.dproj</Transaction>
     <Transaction>2022/02/26 19:22:14.000.012,=D:\Dev\Projeto Gematria\Unit1.pas</Transaction>
-    <Transaction>2022/02/26 19:25:00.000.539,D:\Dev\Projeto Gematria\Unit1.dfm=D:\Dev\Projeto Gematria\uExportacao.dfm</Transaction>
-    <Transaction>2022/02/26 19:25:00.000.539,D:\Dev\Projeto Gematria\Unit1.pas=D:\Dev\Projeto Gematria\uExportacao.pas</Transaction>
-    <Transaction>2022/02/26 20:13:48.000.391,=D:\Dev\Projeto Gematria\model\uControleSQL.pas</Transaction>
+    <Transaction>2022/02/26 19:25:00.000.539,D:\Dev\Projeto Gematria\uExportacao.dfm=D:\Dev\Projeto Gematria\Unit1.dfm</Transaction>
+    <Transaction>2022/02/26 19:25:00.000.539,D:\Dev\Projeto Gematria\uExportacao.pas=D:\Dev\Projeto Gematria\Unit1.pas</Transaction>
     <Transaction>2022/02/26 20:13:48.000.367,=D:\Dev\Projeto Gematria\model\uConexaoBanco.pas</Transaction>
+    <Transaction>2022/02/26 20:13:48.000.391,=D:\Dev\Projeto Gematria\model\uControleSQL.pas</Transaction>
     <Transaction>2022/02/27 12:14:48.000.911,=D:\Dev\Projeto Gematria\Threads\uThread.pas</Transaction>
     <Transaction>2022/02/27 13:23:04.000.905,=D:\Dev\Projeto Gematria\Unit1.pas</Transaction>
-    <Transaction>2022/02/27 13:23:29.000.153,D:\Dev\Projeto Gematria\uUtil.pas=D:\Dev\Projeto Gematria\Unit1.pas</Transaction>
+    <Transaction>2022/02/27 13:23:29.000.153,D:\Dev\Projeto Gematria\Unit1.pas=D:\Dev\Projeto Gematria\uUtil.pas</Transaction>
     <Transaction>2022/02/27 15:59:07.000.951,=D:\Dev\Projeto Gematria\Unit1.pas</Transaction>
     <Transaction>2022/02/27 16:03:58.000.988,D:\Dev\Projeto Gematria\uUtil.pas=</Transaction>
     <Transaction>2022/02/27 16:06:01.000.933,=D:\Dev\Projeto Gematria\uUtil.pas</Transaction>

@@ -57,6 +57,9 @@ type
     dstHistoricBDDATA: TDateField;
     dtsSelecionadasbdword: TStringField;
     dtsSelecionadasbddata: TDateField;
+    Panel9: TPanel;
+    SpeedButton4: TSpeedButton;
+    Panel10: TPanel;
     procedure SpeedButton2Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure edTextoChange(Sender: TObject);
@@ -146,7 +149,7 @@ end;
 procedure TfrGematriaPrincipal.DBGrid2MouseDown(Sender: TObject;
   Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 begin
-  showmessage('qweqweqwe')
+//  showmessage('qweqweqwe')
 end;
 
 procedure TfrGematriaPrincipal.DimensionarGrid(dbg: TDBGrid);
@@ -256,8 +259,8 @@ begin
 
 //  inverteMesDia(date);
   DBGrid1.Columns[0].Width:=200;
-  DBGrid2.Columns[0].Width:=125;
-  DBGrid3.Columns[0].Width:=125;
+  DBGrid2.Columns[0].Width:=120;
+  DBGrid3.Columns[0].Width:=123;
   Util:=TUtil.create;
   Util.pCriaPopulaStringList;
   FConnection  := TBDConnection.Create;

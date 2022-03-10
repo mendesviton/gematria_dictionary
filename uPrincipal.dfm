@@ -2,10 +2,10 @@ object frGematriaPrincipal: TfrGematriaPrincipal
   Left = 0
   Top = 0
   BorderIcons = [biSystemMenu, biMinimize, biMaximize, biHelp]
-  BorderStyle = bsNone
-  Caption = 'Gematria Generator'
-  ClientHeight = 1030
-  ClientWidth = 1920
+  BorderStyle = bsSingle
+  Caption = 'Numerology Dictionary Index Comparison'
+  ClientHeight = 1001
+  ClientWidth = 1914
   Color = cl3DDkShadow
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -21,40 +21,15 @@ object frGematriaPrincipal: TfrGematriaPrincipal
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
-  object Label10: TLabel
-    Left = 400
-    Top = 542
-    Width = 154
-    Height = 22
-    Caption = 'Selected words'
-    Font.Charset = ANSI_CHARSET
-    Font.Color = clLime
-    Font.Height = -19
-    Font.Name = 'Courier New'
-    Font.Style = [fsBold]
-    ParentFont = False
-  end
-  object Label9: TLabel
-    Left = 432
-    Top = 14
-    Width = 88
-    Height = 22
-    Caption = 'Historic'
-    Font.Charset = ANSI_CHARSET
-    Font.Color = clLime
-    Font.Height = -19
-    Font.Name = 'Courier New'
-    Font.Style = [fsBold]
-    ParentFont = False
-  end
   object Panel2: TPanel
     Left = 0
     Top = 0
     Width = 321
-    Height = 1030
+    Height = 1001
     Align = alLeft
     BevelKind = bkFlat
     TabOrder = 0
+    ExplicitHeight = 1030
     object SpeedButton1: TSpeedButton
       Left = 70
       Top = 384
@@ -65,15 +40,16 @@ object frGematriaPrincipal: TfrGematriaPrincipal
       Left = 1
       Top = 1
       Width = 315
-      Height = 1024
+      Height = 995
       Align = alClient
       BevelKind = bkFlat
       Color = 4276545
       ParentBackground = False
       TabOrder = 0
+      ExplicitHeight = 1024
       object Image1: TImage
         Left = 33
-        Top = 27
+        Top = 9
         Width = 257
         Height = 257
         Picture.Data = {
@@ -1235,11 +1211,170 @@ object frGematriaPrincipal: TfrGematriaPrincipal
       end
     end
   end
+  object Panel9: TPanel
+    Left = 321
+    Top = 0
+    Width = 321
+    Height = 1001
+    Align = alLeft
+    BevelKind = bkFlat
+    TabOrder = 1
+    ExplicitLeft = 8
+    object SpeedButton4: TSpeedButton
+      Left = 70
+      Top = 384
+      Width = 177
+      Height = 41
+    end
+    object Panel10: TPanel
+      Left = 1
+      Top = 1
+      Width = 315
+      Height = 995
+      Align = alClient
+      BevelKind = bkFlat
+      Color = 4276545
+      ParentBackground = False
+      TabOrder = 0
+      ExplicitTop = -9
+      object Label10: TLabel
+        Left = 69
+        Top = 553
+        Width = 154
+        Height = 22
+        Caption = 'Selected words'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clLime
+        Font.Height = -19
+        Font.Name = 'Courier New'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object Label9: TLabel
+        Left = 103
+        Top = 38
+        Width = 88
+        Height = 22
+        Caption = 'Historic'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clLime
+        Font.Height = -19
+        Font.Name = 'Courier New'
+        Font.Style = [fsBold]
+        ParentFont = False
+      end
+      object DBGrid2: TDBGrid
+        Left = 14
+        Top = 66
+        Width = 272
+        Height = 330
+        DataSource = dsHistoric
+        TabOrder = 0
+        TitleFont.Charset = DEFAULT_CHARSET
+        TitleFont.Color = clWindowText
+        TitleFont.Height = -11
+        TitleFont.Name = 'Tahoma'
+        TitleFont.Style = []
+        OnMouseDown = DBGrid2MouseDown
+        Columns = <
+          item
+            Alignment = taCenter
+            Expanded = False
+            FieldName = 'BDWORD'
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -12
+            Font.Name = 'Courier New'
+            Font.Style = []
+            Title.Alignment = taCenter
+            Title.Caption = 'WORD'
+            Title.Font.Charset = DEFAULT_CHARSET
+            Title.Font.Color = clWindowText
+            Title.Font.Height = -16
+            Title.Font.Name = 'Courier New'
+            Title.Font.Style = [fsBold]
+            Width = 130
+            Visible = True
+          end
+          item
+            Alignment = taCenter
+            Expanded = False
+            FieldName = 'BDDATA'
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -12
+            Font.Name = 'Courier New'
+            Font.Style = []
+            Title.Alignment = taCenter
+            Title.Caption = 'DATE'
+            Title.Font.Charset = DEFAULT_CHARSET
+            Title.Font.Color = clWindowText
+            Title.Font.Height = -16
+            Title.Font.Name = 'Courier New'
+            Title.Font.Style = [fsBold]
+            Width = 133
+            Visible = True
+          end>
+      end
+      object DBGrid3: TDBGrid
+        Left = 14
+        Top = 585
+        Width = 272
+        Height = 330
+        DataSource = dsSelecionadas
+        TabOrder = 1
+        TitleFont.Charset = DEFAULT_CHARSET
+        TitleFont.Color = clWindowText
+        TitleFont.Height = -11
+        TitleFont.Name = 'Tahoma'
+        TitleFont.Style = []
+        Columns = <
+          item
+            Alignment = taCenter
+            Expanded = False
+            FieldName = 'bdword'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -12
+            Font.Name = 'Courier New'
+            Font.Style = []
+            Title.Alignment = taCenter
+            Title.Caption = 'WORD'
+            Title.Font.Charset = DEFAULT_CHARSET
+            Title.Font.Color = clWindowText
+            Title.Font.Height = -15
+            Title.Font.Name = 'Courier New'
+            Title.Font.Style = [fsBold]
+            Width = 135
+            Visible = True
+          end
+          item
+            Alignment = taCenter
+            Expanded = False
+            FieldName = 'bddata'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -12
+            Font.Name = 'Courier New'
+            Font.Style = []
+            Title.Alignment = taCenter
+            Title.Caption = 'DATE'
+            Title.Font.Charset = DEFAULT_CHARSET
+            Title.Font.Color = clWindowText
+            Title.Font.Height = -15
+            Title.Font.Name = 'Courier New'
+            Title.Font.Style = [fsBold]
+            Width = 130
+            Visible = True
+          end>
+      end
+    end
+  end
   object DBGrid1: TDBGrid
-    Left = 632
+    Left = 626
     Top = 0
     Width = 1288
-    Height = 1030
+    Height = 1001
     Align = alRight
     Color = clGray
     DataSource = DataSource1
@@ -1252,7 +1387,7 @@ object frGematriaPrincipal: TfrGematriaPrincipal
     Font.Name = 'Courier New'
     Font.Style = []
     ParentFont = False
-    TabOrder = 1
+    TabOrder = 2
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
     TitleFont.Height = -11
@@ -1328,111 +1463,6 @@ object frGematriaPrincipal: TfrGematriaPrincipal
         Title.Font.Name = 'Courier New'
         Title.Font.Style = [fsBold]
         Width = 250
-        Visible = True
-      end>
-  end
-  object DBGrid2: TDBGrid
-    Left = 345
-    Top = 42
-    Width = 272
-    Height = 475
-    DataSource = dsHistoric
-    TabOrder = 2
-    TitleFont.Charset = DEFAULT_CHARSET
-    TitleFont.Color = clWindowText
-    TitleFont.Height = -11
-    TitleFont.Name = 'Tahoma'
-    TitleFont.Style = []
-    OnMouseDown = DBGrid2MouseDown
-    Columns = <
-      item
-        Alignment = taCenter
-        Expanded = False
-        FieldName = 'BDWORD'
-        Font.Charset = ANSI_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -12
-        Font.Name = 'Courier New'
-        Font.Style = []
-        Title.Alignment = taCenter
-        Title.Caption = 'WORD'
-        Title.Font.Charset = DEFAULT_CHARSET
-        Title.Font.Color = clWindowText
-        Title.Font.Height = -16
-        Title.Font.Name = 'Courier New'
-        Title.Font.Style = [fsBold]
-        Width = 130
-        Visible = True
-      end
-      item
-        Alignment = taCenter
-        Expanded = False
-        FieldName = 'BDDATA'
-        Font.Charset = ANSI_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -12
-        Font.Name = 'Courier New'
-        Font.Style = []
-        Title.Alignment = taCenter
-        Title.Caption = 'DATE'
-        Title.Font.Charset = DEFAULT_CHARSET
-        Title.Font.Color = clWindowText
-        Title.Font.Height = -16
-        Title.Font.Name = 'Courier New'
-        Title.Font.Style = [fsBold]
-        Width = 133
-        Visible = True
-      end>
-  end
-  object DBGrid3: TDBGrid
-    Left = 345
-    Top = 570
-    Width = 272
-    Height = 460
-    DataSource = dsSelecionadas
-    TabOrder = 3
-    TitleFont.Charset = DEFAULT_CHARSET
-    TitleFont.Color = clWindowText
-    TitleFont.Height = -11
-    TitleFont.Name = 'Tahoma'
-    TitleFont.Style = []
-    Columns = <
-      item
-        Alignment = taCenter
-        Expanded = False
-        FieldName = 'bdword'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -12
-        Font.Name = 'Courier New'
-        Font.Style = []
-        Title.Alignment = taCenter
-        Title.Caption = 'WORD'
-        Title.Font.Charset = DEFAULT_CHARSET
-        Title.Font.Color = clWindowText
-        Title.Font.Height = -15
-        Title.Font.Name = 'Courier New'
-        Title.Font.Style = [fsBold]
-        Width = 135
-        Visible = True
-      end
-      item
-        Alignment = taCenter
-        Expanded = False
-        FieldName = 'bddata'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -12
-        Font.Name = 'Courier New'
-        Font.Style = []
-        Title.Alignment = taCenter
-        Title.Caption = 'DATE'
-        Title.Font.Charset = DEFAULT_CHARSET
-        Title.Font.Color = clWindowText
-        Title.Font.Height = -15
-        Title.Font.Name = 'Courier New'
-        Title.Font.Style = [fsBold]
-        Width = 130
         Visible = True
       end>
   end

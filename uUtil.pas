@@ -36,15 +36,15 @@ implementation
 
 
 
-function TUtil.inverteMesDia(prdata:TDate): string;
+class function TUtil.inverteMesDia(prdata:TDate):string;
 var
   wMes:string;
   wDia:String;
   wAno:String;
 begin
- wDia := Copy(prdata,0,2);
- wMes := Copy(prdata,4,2);
- wAno := Copy(prdata,7,4);
+ wDia := Copy(datetostr(prdata),0,2);
+ wMes := Copy(datetostr(prdata),4,2);
+ wAno := Copy(datetostr(prdata),7,4);
 
  result:=( wMes+'/'+wDia+'/'+wAno )
  end;
